@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Album Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Fixed visual layers. Order matters for depth and readability. -->
+    <canvas class="bg-3d-canvas" id="bg3dCanvas" aria-hidden="true"></canvas>
+    <canvas class="wave-canvas" id="waveCanvas" aria-hidden="true"></canvas>
+    <div class="film-grain" aria-hidden="true"></div>
+
+    <!-- Main cinematic content that scroll drives the theme and 3D behavior. -->
+    <main class="experience">
+      <section class="hero">
+        <p class="kicker">Album Experience</p>
+        <h1>Enjoy</h1>
+        <p class="hero-copy">Scroll through this record like a movie sequence.</p>
+      </section>
+
+      <div class="stage">
+        <aside class="left-panel">
+          <div class="album-rig">
+            <div class="album-shadow"></div>
+            <div class="album-card" id="albumCard" aria-hidden="true"></div>
+          </div>
+
+          <div class="mood-box">
+            <p class="label">Current Mood</p>
+            <h2 id="moodTitle">Midnight Ignition</h2>
+            <p id="moodText">
+              Streetlights crack open and the city takes its first electric breath.
+            </p>
+          </div>
+        </aside>
+
+        <!-- Each scene carries data-* tokens consumed by script.js for live theming/mood updates. -->
+        <section class="scene-list" id="sceneList">
+          <article
+            class="scene active"
+            data-title="Ignition"
+            data-mood-title="Midnight Ignition"
+            data-mood="Streetlights crack open and the city takes its first electric breath."
+            data-bg1="#0d1424"
+            data-bg2="#3a1f47"
+            data-accent="#ff8569"
+          >
+            <div class="scene-inner">
+              <p class="scene-track">Track 01</p>
+              <h3>True Love (Eli njuchi)</h3>
+              <p>A slow engine start. Warm synths and distant thunder set the opening frame.</p>
+            </div>
+          </article>
+
+          <article
+            class="scene"
+            data-title="Chrome Hearts"
+            data-mood-title="Neon Rush"
+            data-mood="Glass reflections, midnight traffic, and adrenaline in stereo."
+            data-bg1="#121023"
+            data-bg2="#0f4f67"
+            data-accent="#2fd6ff"
+          >
+            <div class="scene-inner">
+              <p class="scene-track">Track 02</p>
+              <h3>In Fact (feat. Gabzy)</h3>
+              <p>Sharper percussion, brighter highs, and momentum that refuses to settle.</p>
+            </div>
+          </article>
+
+          <article
+            class="scene"
+            data-title="Afterlight"
+            data-mood-title="Soft Focus"
+            data-mood="The pace blurs into glow, with vocals floating over low-frequency tides."
+            data-bg1="#171225"
+            data-bg2="#743a5f"
+            data-accent="#ffa3c8"
+          >
+            <div class="scene-inner">
+              <p class="scene-track">Track 03</p>
+              <h3> Ayi (Bad Energy )</h3>
+              <p>A dreamy break in the chase. Intimate textures and suspended rhythm.</p>
+            </div>
+          </article>
+
+          <article
+            class="scene"
+            data-title="No Signal"
+            data-mood-title="Static Tension"
+            data-mood="Frequencies crackle at the edge of control as shadows thicken."
+            data-bg1="#090d1a"
+            data-bg2="#2b2f46"
+            data-accent="#9cb7ff"
+          >
+            <div class="scene-inner">
+              <p class="scene-track">Track 04</p>
+              <h3>Circles (SAINt JHN)</h3>
+              <p>Compressed drums and jagged bass carve out an uneasy, magnetic center.</p>
+            </div>
+          </article>
+
+          <article
+            class="scene"
+            data-title="Velvet Frame"
+            data-mood-title="Blue Noir"
+            data-mood="Rain on windows, analog keys, and a chorus that feels like slow cinema."
+            data-bg1="#0f1422"
+            data-bg2="#1b5a67"
+            data-accent="#61f5d7"
+          >
+            <div class="scene-inner">
+              <p class="scene-track">Track 05</p>
+              <h3>Dolo (Emm Zibry)</h3>
+              <p>Late-night elegance with deep groove and cinematic restraint.</p>
+            </div>
+          </article>
+
+          <article
+            class="scene"
+            data-title="Heatline"
+            data-mood-title="City Pulse"
+            data-mood="Kicks strike like footsteps on concrete while neon signage flickers overhead."
+            data-bg1="#1d1015"
+            data-bg2="#77331f"
+            data-accent="#ffb166"
+          >
+            <div class="scene-inner">
+              <p class="scene-track">Track 06</p>
+              <h3>Step by step (Cripsy Malawi)</h3>
+              <p>Up-tempo and urgent, this is the sprint sequence through downtown.</p>
+            </div>
+          </article>
+
+          <article
+            class="scene"
+            data-title="Silent Arcade"
+            data-mood-title="Afterglow Drift"
+            data-mood="The tempo drops, and the room turns violet with distant memory."
+            data-bg1="#0e1326"
+            data-bg2="#4d3a84"
+            data-accent="#c0a7ff"
+          >
+            <div class="scene-inner">
+              <p class="scene-track">Track 07</p>
+              <h3>Uok (Nasty C)</h3>
+              <p>Retro textures and airy leads shape a reflective chapter.</p>
+            </div>
+          </article>
+
+          <article
+            class="scene"
+            data-title="First Light"
+            data-mood-title="Dawn Release"
+            data-mood="A final exhale. The skyline brightens and the tension dissolves."
+            data-bg1="#11161f"
+            data-bg2="#32656d"
+            data-accent="#ffe89a"
+          >
+            <div class="scene-inner">
+              <p class="scene-track">Track 08</p>
+              <h3>Too Many (Tyga)</h3>
+              <p>Resolution in major tones, ending the journey with clear horizon energy.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- Quick jump list; clicking a track scrolls to its scene. -->
+        <nav class="track-panel" aria-label="Album track list">
+          <p class="label">Track List</p>
+          <ol class="track-list" id="trackList">
+            <li><button class="active" type="button" data-target="0"><span>01</span> True Love (Eli njuchi)</button></li>
+            <li><button type="button" data-target="1"><span>02</span> In Fact (feat. Gabzy)</button></li>
+            <li><button type="button" data-target="2"><span>03</span> Ayi (Bad Energy )</button></li>
+            <li><button type="button" data-target="3"><span>04</span> Circles (SAINt JHN)</button></li>
+            <li><button type="button" data-target="4"><span>05</span> Dolo (Emm Zibry)</button></li>
+            <li><button type="button" data-target="5"><span>06</span> Step by step (Cripsy Malawi)</button></li>
+            <li><button type="button" data-target="6"><span>07</span> Uok (Nasty C)</button></li>
+            <li><button type="button" data-target="7"><span>08</span> Too Many (Tyga)</button></li>
+          </ol>
+        </nav>
+      </div>
+    </main>
+
+    <!-- Audio controls used by the Web Audio analyzer for beat-reactive visuals. -->
+    <section class="audio-dock" aria-label="Audio reactive controls">
+      <button class="audio-btn" id="audioToggle" type="button">Load Audio</button>
+      <label class="audio-upload" for="audioFile">
+        <input id="audioFile" type="file" accept="audio/*" />
+        Choose Track
+      </label>
+      <div class="audio-meter" aria-hidden="true"><span id="audioMeterFill"></span></div>
+      <p class="audio-status" id="audioStatus">Audio reactive mode: choose a track.</p>
+    </section>
+    <!-- Hidden media element. JavaScript attaches analyzer + playback control to this node. -->
+    <audio id="albumAudio" preload="metadata" crossorigin="anonymous"></audio>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

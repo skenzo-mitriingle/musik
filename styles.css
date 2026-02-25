@@ -1,0 +1,492 @@
+/* Theme tokens updated at runtime from the active scene. */
+:root {
+  --bg1: #0d1424;
+  --bg2: #3a1f47;
+  --accent: #ff8569;
+  --text: #eff2ff;
+  --muted: #b6bdd8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 10% 10%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 40%),
+    radial-gradient(circle at 90% 85%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 45%),
+    linear-gradient(140deg, var(--bg1), var(--bg2) 55%, #080b14);
+  transition: background 900ms ease;
+  overflow-x: hidden;
+}
+
+/* Global vignette/grade above 3D background to keep text legible. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 44%, rgba(0, 0, 0, 0.48) 100%),
+    linear-gradient(180deg, rgba(5, 8, 16, 0.17), rgba(5, 8, 16, 0.5));
+}
+
+/* Layer stack:
+   0: 3D background canvas
+   1: wave canvas
+   2: vignette (body::before)
+   3: film grain
+   4+: content panels */
+.bg-3d-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.wave-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.62;
+}
+
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.19;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.09) 0 0.6px, transparent 0.8px),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.06) 0 0.7px, transparent 0.8px);
+  background-size: 3px 3px, 2px 2px;
+  animation: grain 260ms steps(2) infinite;
+}
+
+.experience {
+  position: relative;
+  z-index: 4;
+  width: min(1200px, 92vw);
+  margin: 0 auto;
+  padding-bottom: 16vh;
+}
+
+/* Audio debug/control dock for loading a track and watching energy levels. */
+.audio-dock {
+  position: fixed;
+  left: clamp(0.9rem, 2vw, 1.8rem);
+  bottom: clamp(0.9rem, 2vw, 1.6rem);
+  width: 15rem;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.62rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(7, 12, 24, 0.72), rgba(11, 20, 34, 0.42));
+  backdrop-filter: blur(10px);
+}
+
+.audio-btn,
+.audio-upload {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  color: #ebf1ff;
+  background: rgba(10, 16, 29, 0.68);
+  font: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  padding: 0.5rem 0.66rem;
+  cursor: pointer;
+  transition:
+    border-color 220ms ease,
+    background 220ms ease,
+    transform 220ms ease;
+}
+
+.audio-upload {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.audio-upload input {
+  display: none;
+}
+
+.audio-btn:hover,
+.audio-upload:hover {
+  border-color: color-mix(in srgb, var(--accent) 70%, white);
+  background: color-mix(in srgb, var(--accent) 18%, rgba(10, 16, 29, 0.68));
+}
+
+.audio-btn:active,
+.audio-upload:active {
+  transform: translateY(1px);
+}
+
+.audio-meter {
+  grid-column: 1 / -1;
+  height: 5px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+#audioMeterFill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  transform: scaleX(0.04);
+  opacity: 0.4;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 55%, #fff), #ffffff);
+  transition:
+    transform 80ms linear,
+    opacity 80ms linear;
+}
+
+.audio-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: rgba(232, 239, 255, 0.76);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+}
+
+#albumAudio {
+  display: none;
+}
+
+.hero {
+  min-height: 74vh;
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  padding-top: 8vh;
+}
+
+.kicker,
+.label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.71rem;
+  color: color-mix(in srgb, var(--accent) 65%, white);
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 7vw, 6.1rem);
+  line-height: 0.95;
+}
+
+.hero-copy {
+  margin: 0;
+  max-width: 38ch;
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  color: var(--muted);
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(300px, 1.2fr) minmax(220px, 0.7fr);
+  gap: clamp(1rem, 2vw, 2rem);
+  align-items: start;
+}
+
+.left-panel {
+  position: sticky;
+  top: 8vh;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.album-rig {
+  position: relative;
+  padding-top: 1rem;
+}
+
+.album-shadow {
+  position: absolute;
+  width: min(280px, 72vw);
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.6);
+  filter: blur(32px);
+  transform: translate3d(0, 30px, -20px) scale(0.9);
+}
+
+.album-card {
+  position: relative;
+  width: min(280px, 72vw);
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, #f5f7ff 16%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 20px 45px rgba(0, 0, 0, 0.45);
+  background: linear-gradient(150deg, rgba(9, 14, 24, 0.95), rgba(15, 24, 42, 0.9));
+  overflow: hidden;
+}
+
+.album-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(125deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 30%, transparent 48%),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 11px,
+      rgba(255, 255, 255, 0.03) 11px,
+      rgba(255, 255, 255, 0.03) 12px
+    );
+}
+
+.album-card canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Extra highlight pass above the WebGL album canvas for a glassy cover look. */
+.album-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 26% 20%,
+      color-mix(in srgb, var(--accent) 18%, rgba(255, 255, 255, 0.08)),
+      transparent 38%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 42%);
+}
+
+.mood-box {
+  background: linear-gradient(135deg, rgba(8, 12, 22, 0.68), rgba(10, 16, 30, 0.28));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 1.1rem;
+  backdrop-filter: blur(8px);
+}
+
+.mood-box h2 {
+  margin: 0.45rem 0 0.55rem;
+  font-family: "DM Serif Display", serif;
+  font-size: clamp(1.35rem, 2.3vw, 2rem);
+  line-height: 1;
+}
+
+.mood-box p:last-child {
+  margin: 0;
+  color: var(--muted);
+  max-width: 30ch;
+  line-height: 1.5;
+}
+
+.scene-list {
+  display: grid;
+  gap: 18vh;
+  padding-top: 5vh;
+}
+
+.scene {
+  min-height: 88vh;
+  display: grid;
+  align-content: center;
+}
+
+.scene-inner {
+  max-width: 46ch;
+  padding: 1.2rem 0.5rem;
+  opacity: 0.28;
+  transform: translateY(28px);
+  transition:
+    opacity 450ms ease,
+    transform 550ms ease;
+}
+
+.scene.active .scene-inner {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scene-track {
+  margin: 0;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  color: color-mix(in srgb, var(--accent) 75%, white);
+}
+
+.scene h3 {
+  margin: 0.45rem 0 0.75rem;
+  font-family: "DM Serif Display", serif;
+  font-size: clamp(1.8rem, 4.2vw, 3.4rem);
+  line-height: 1;
+}
+
+.scene p {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.track-panel {
+  position: sticky;
+  top: 8vh;
+  padding: 0.65rem 0.5rem;
+}
+
+.track-list {
+  margin: 0.8rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.track-list button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  background: rgba(8, 14, 28, 0.5);
+  color: var(--muted);
+  padding: 0.65rem 0.72rem;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    color 250ms ease,
+    border-color 250ms ease,
+    transform 250ms ease,
+    background 250ms ease;
+}
+
+.track-list button span {
+  color: color-mix(in srgb, var(--accent) 65%, #fff);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  min-width: 2.2rem;
+}
+
+.track-list button.active {
+  color: #f4f8ff;
+  border-color: color-mix(in srgb, var(--accent) 58%, #fff 16%);
+  background: color-mix(in srgb, var(--accent) 14%, rgba(8, 14, 28, 0.5));
+  transform: translateX(4px);
+}
+
+.track-list button:hover {
+  border-color: color-mix(in srgb, var(--accent) 46%, #fff 8%);
+}
+
+@keyframes grain {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0.5%, -0.5%);
+  }
+}
+
+@media (max-width: 1080px) {
+  /* Collapse 3-column layout to single column while keeping order stable. */
+  .stage {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .left-panel,
+  .track-panel {
+    position: static;
+  }
+
+  .left-panel {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .mood-box p:last-child {
+    margin-inline: auto;
+  }
+
+  .scene-list {
+    gap: 10vh;
+    padding-top: 2vh;
+  }
+
+  .scene {
+    min-height: 70vh;
+  }
+
+  .scene-inner {
+    max-width: none;
+  }
+
+  .track-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .experience {
+    width: min(92vw, 640px);
+  }
+
+  .hero {
+    min-height: 62vh;
+  }
+
+  .track-list {
+    grid-template-columns: 1fr;
+  }
+
+  .track-list button.active {
+    transform: none;
+  }
+
+  .scene {
+    min-height: 62vh;
+  }
+
+  /* Mobile: keep controls reachable and compact. */
+  .audio-dock {
+    width: calc(100vw - 1rem);
+    left: 0.5rem;
+    bottom: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+  }
+}
