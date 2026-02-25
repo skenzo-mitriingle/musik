@@ -622,12 +622,12 @@ function initAlbumScene() {
 
     coverCtx.fillStyle = "rgba(238, 242, 255, 0.82)";
     coverCtx.font = "500 35px Space Grotesk";
-    coverCtx.fillText("LUNAR DISTRICT", 76, 108);
+    coverCtx.fillText("FEEL THE VIBE", 76, 108);
 
     coverCtx.fillStyle = "rgba(255, 255, 255, 0.95)";
     coverCtx.font = "400 152px 'DM Serif Display'";
-    coverCtx.fillText("NEON", 70, 760);
-    coverCtx.fillText("TIDES", 70, 890);
+    coverCtx.fillText("Enjoy", 70, 760);
+    coverCtx.fillText("skenzo", 70, 890);
 
     coverCtx.strokeStyle = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.72)`;
     coverCtx.lineWidth = 5;
@@ -642,7 +642,7 @@ function initAlbumScene() {
 
     coverCtx.fillStyle = "rgba(230, 236, 255, 0.72)";
     coverCtx.font = "500 28px Space Grotesk";
-    coverCtx.fillText("DELUXE MOTION CUT", 76, 968);
+    coverCtx.fillText("skenzoguy", 76, 968);
 
     coverTexture.needsUpdate = true;
   }
